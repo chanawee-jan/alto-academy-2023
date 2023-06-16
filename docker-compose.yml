@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  postgres:
     image: postgres:14.1-alpine
     restart: always
     environment:
@@ -10,6 +10,18 @@ services:
       - '5432:5432'
     volumes: 
       - db:/var/lib/postgresql/data
+
+  couchserver:
+    image: couchdb
+    restart: always
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=YOURPASSWORD
+    volumes:
+        - ./dbdata:/opt/couchdb/data
+        
 volumes:
   db:
     driver: local
